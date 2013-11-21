@@ -29,4 +29,4 @@ for i in range(0, n):
    player = Player(username, score)
    players.append(player)
 
-players = quick_sort(players)
+leaderboard = quick_sort(players)

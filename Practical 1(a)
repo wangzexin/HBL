@@ -1,0 +1,14 @@
+import random
+
+class Player():
+   def __init__(self, username, score):
+      self.username = username
+      self.score = score
+
+n = int(input('Type in the number of players : '))
+players = []
+for i in range(0, n):
+   username = input('Type in the name of this player : ')
+   score = int(input('Type in the score of this player : '))
+   player = Player(username, score)
+   players.append(player)

@@ -5,12 +5,12 @@ def score_list_generator(minvalue, givenvalue, maxvalue):
    score_list = []
    for i in range(0, 5):
       score = random.choice(lower_score_list)
-      lower_score_list.pop(score)
+      lower_score_list.pop(lower_score_list.index(score))
       score_list.append(score)
    higher_score_list = list(range(givenvalue+1, maxvalue+1))
    for i in range(0, 5):
       score = random.choice(higher_score_list)
-      higher_score_list.pop(score)
+      higher_score_list.pop(higher_score_list.index(score))
       score_list.append(score)
    return score_list
 
@@ -33,13 +33,14 @@ class Player():
    def display(self):
       print(self.username + ' with a score of ' + str(self.score))
 
-n = int(input('Type in the number of players : '))
 score = int(input('Type in the given score : '))
 score_list = score_list_generator(0, score, 99999)
+score_list.append(score)
 players = []
-for i in range(0, n):
+for i in range(0, 11):
    username = name_generator()
    score = random.choice(score_list)
+   score_list.pop(score_list.index(score))
    player = Player(username, score)
    players.append(player)
    player.display()

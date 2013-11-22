@@ -1,0 +1,17 @@
+class Player():
+   def __init__(self, username, score):
+      self.username = username
+      self.score = score
+
+def insert(leaderboard, player_username, player_score):
+   player = Player(player_username, player_score)
+   i = 0
+   while True:
+      if leaderboard[i].score < player_score:
+         leaderboard = leaderboard[:i] + player + leaderboard[i:]
+         break
+      if i == len(leaderboard):
+         leaderboard = leaderboard + player
+         break
+   return leaderboard
+

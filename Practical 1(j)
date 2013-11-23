@@ -1,0 +1,108 @@
+import random
+
+class Player():
+   def __init__(self, username, score):
+      self.username = username
+      self.score = score
+
+   def display(self):
+      print(self.username + ' with a score of ' + str(self.score))
+
+def binary_search(players, username):
+   l = len(players)
+   mid = l // 2
+   if players[mid].username == username:
+      return players[mid].score
+   if mid > 0:
+      result = binary_search(players[:mid], username)
+      if result:
+         return result
+   if mid+1 < l:
+      result = binary_search(players[mid+1:], username)
+      if result:
+         return result
+   return False
+
+def insert(leaderboard, player_username, player_score):
+   player = Player(player_username, player_score)
+   left = 0
+   right = len(leaderboard)-1
+   if player_score > leaderboard[0].score:
+      return player+leaderboard
+   if player_score < leaderboard[-1].score:
+      return leaderboard+player
+   while (left <= right):
+      mid = (left + right) // 2
+      if (leaderboard[mid].score >= player_score) and (player_score > leaderboard[mid+1].score):
+         return leaderboard[:mid+1] + player + leaderboard[mid+1:]
+      if (leaderboard[mid].score >= player_score):
+         left = mid + 1
+      else:
+         right = mid - 1
+   return leaderboard
+
+def score_generator():
+   return random.choice(range(0, 100000))
+
+def name_generator():
+   name_length = random.choice(range(4, 8))
+   name_nums = []
+   for i in range(0, name_length):
+      name_num = random.choice(range(1, 27))
+      name_nums.append(name_num)
+   name = chr(64 + name_nums[0])
+   for i in range(1, name_length):
+      name += chr(96 + name_nums[i])
+   return name
+
+def quick_sort(players):
+   if players == []:
+      return []
+   left = []
+   right = []
+   pivot = players[0].score
+   for player in players[1:]:
+      i = player.score
+      if i < pivot:
+         left.append(player)
+      else:
+         right.append(player)
+   left = quick_sort(left)
+   right = quick_sort(right)
+   return right + [players[0]] + left
+
+def score_list_generator(players, score):
+   players = quick_sort(players)
+   l = len(players)
+   for i in range(5, l-6):
+      if players[i].score == score:
+         return players[i-5:i+6]
+   return False
+
+n = int(input('Type in the number of players : '))
+players = []
+for i in range(0, n):
+   username = input('Type in the name of this player : ')
+   score = int(input('Type in the score of this player : '))
+   player = Player(username, score)
+   players.append(player)
+
+n = 5000
+players = []
+for i in range(0, n):
+   username = name_generator()
+   score = score_generator()
+   player = Player(username, score)
+   players.append(player)
+
+leaderboard = quick_sort(players)
+
+insert(leaderboard, 'Clever boy', 99999)
+
+for player in leaderboard:
+   player.display()
+
+player_list = score_list_generator(players, players[500])
+
+for player in player_list:
+   player.display()

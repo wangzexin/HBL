@@ -13,7 +13,7 @@ def bubble_sort(players):
    while True:
       flag = True
       for i in range(0, l-1):
-         if players[i].score < players[i+1].score:
+         if (players[i].score < players[i+1].score) or ((players[i].score == players[i+1].score) and (players[i].username < players[i+1].username):
             swap = players[i]
             players[i] = players[i+1]
             players[i+1] =swap

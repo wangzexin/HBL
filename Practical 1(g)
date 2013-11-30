@@ -1,30 +1,5 @@
 import random
 
-def score_list_generator(minvalue, givenvalue, maxvalue):
-   lower_score_list = list(range(minvalue, givenvalue))
-   score_list = []
-   for i in range(0, 5):
-      score = random.choice(lower_score_list)
-      lower_score_list.pop(lower_score_list.index(score))
-      score_list.append(score)
-   higher_score_list = list(range(givenvalue+1, maxvalue+1))
-   for i in range(0, 5):
-      score = random.choice(higher_score_list)
-      higher_score_list.pop(higher_score_list.index(score))
-      score_list.append(score)
-   return score_list
-
-def name_generator():
-   name_length = random.choice(range(4, 8))
-   name_nums = []
-   for i in range(0, name_length):
-      name_num = random.choice(range(1, 27))
-      name_nums.append(name_num)
-   name = chr(64 + name_nums[0])
-   for i in range(1, name_length):
-      name += chr(96 + name_nums[i])
-   return name
-
 class Player():
    def __init__(self, username, score):
       self.username = username
@@ -33,14 +8,29 @@ class Player():
    def display(self):
       print(self.username + ' with a score of ' + str(self.score))
 
-score = int(input('Type in the given score : '))
-score_list = score_list_generator(0, score, 99999)
-score_list.append(score)
-players = []
-for i in range(0, 11):
-   username = name_generator()
-   score = random.choice(score_list)
-   score_list.pop(score_list.index(score))
-   player = Player(username, score)
-   players.append(player)
-   player.display()
+def bubble_sort(players):
+   l = len(players)
+   while True:
+      flag = True
+      for i in range(0, l-1):
+         if players[i].score < players[i+1].score:
+            swap = players[i]
+            players[i] = players[i+1]
+            players[i+1] =swap
+            flag = False
+      if flag:
+         return players
+
+def score_list_generator(players, score):
+   players = bubble_sort(players)
+   l = len(players)
+   for i in range(5, l-6):
+      if (players[i].score > score) and (players[i+1].score <= score):
+         left = i-5
+         right = i+5
+         break
+   while (left >= 1) and (players[left].score == players[left-1].score):
+      left -= 1
+   while (right <= l) and (players[right].score == players[right+1].score):
+      right -= 1
+   return players[left, right+1]

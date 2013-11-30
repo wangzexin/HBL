@@ -25,6 +25,6 @@ def player_list_generator(players, score):
    players = bubble_sort(players)
    l = len(players)
    for i in range(5, l-6):
-      if players[i].score == score:
+      if (players[i].score > score) and (players[i+1].score <= score):
          return players[i-5:i+6]
    return False

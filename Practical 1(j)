@@ -60,7 +60,7 @@ def bubble_sort(players):
    while True:
       flag = True
       for i in range(0, l-1):
-         if (players[i].score < players[i+1].score) or ((players[i].score == players[i+1].score) and (players[i].username < players[i+1].username):
+         if (players[i].score < players[i+1].score) or ((players[i].score == players[i+1].score) and (players[i].username < players[i+1].username)):
             swap = players[i]
             players[i] = players[i+1]
             players[i+1] =swap
@@ -68,7 +68,7 @@ def bubble_sort(players):
       if flag:
          return players
 
-def score_list_generator(players, score):
+def player_list_generator(players, score):
    players = quick_sort(players)
    l = len(players)
    for i in range(5, l-6):
@@ -76,30 +76,60 @@ def score_list_generator(players, score):
          return players[i-5:i+6]
    return False
 
-n = int(input('Type in the number of players : '))
+print('Welcome to our game!')
 players = []
-for i in range(0, n):
-   username = input('Type in the name of this player : ')
-   score = int(input('Type in the score of this player : '))
-   player = Player(username, score)
-   players.append(player)
+leaderboard = []
+while True:
+   print('Would you like to:')
+   print('A: Type in usernames and scores of players yourself')
+   print('B: Generate a list of players with the same score randomly')
+   print('C: Sort the player list to generate the leaderboard')
+   print('D: Insert a player into the leaderboard')
+   print('E: Display the current player list')
+   print('F: Display the current leaderboard')
+   print('G: Display players within 5 ranks from a given score')
+   print('H: End the game')
+   x = input('Type in the alphabet to indicate your choice')
+   while True:
+      if len(x) == 1:
+         if 65 <= ord(x) <= 72:
+            break
+      x = input('Type in the alphabet to indicate your choice : ')
+   if x == 'A':
+      n = int(input('Type in the number of players : '))
+      players = []
+      for i in range(0, n):
+         username = input('Type in the name of this player : ')
+         score = int(input('Type in the score of this player : '))
+         player = Player(username, score)
+         players.append(player)
+   if x == 'B':
+      n = int(input('Type in the number of players : '))
+      score = int(input('Type in the score wanted : '))
+      players = []
+      for i in range(0, n):
+         username = name_generator()
+         player = Player(username, score)
+         players.append(player)
+   if x == 'C':
+      leaderboard = bubble_sort(players)
+   if x == 'D':
+      username = input('Type in the username of player : ')
+      score = int(input('Type in the score of player : '))
+      insert(leaderboard, username, score)
+   if x == 'E':
+      print('Here are the players in the player list :')
+      for player in players:
+         player.display()
+   if x == 'F':
+      print('Here are the players in the leaderboard :')
+      for player in leaderboard:
+         player.display()
+   if x == 'G':
+      score = int(input('Type in the given score : '))
+      player_list = player_list_generator(players, score)
+   if x == 'H':
+      break
 
-n = 5000
-players = []
-for i in range(0, n):
-   username = name_generator()
-   score = score_generator()
-   player = Player(username, score)
-   players.append(player)
-
-leaderboard = bubble_sort(players)
-
-insert(leaderboard, 'Clever boy', 99999)
-
-for player in leaderboard:
-   player.display()
-
-player_list = score_list_generator(players, players[500])
-
-for player in player_list:
-   player.display()
+print('The game ends here.')
+print('Thank you!')
